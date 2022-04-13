@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  version: "1.0"
+  title: Dart Shadow Json Demo
+servers:
+  - url: 'localhost'
+    variables:
+      host:
+        default: localhost
+components:
+  schemas:
+    ItemWithFieldNamedJson:
+      type: object
+      properties:
+        json:
+          type: object
+          additionalProperties: {}
+paths:
+  /:
+    get:
+      operationId: shadow
+      responses:
+        '200':
+          description: produces a shadowed json field when generated in dart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemWithFieldNamedJson'
