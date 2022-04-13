@@ -3,6 +3,8 @@
 Demonstrates how the OpenAPI tools Dart SDK generator will incorrectly shadow field variables named `json` in the generated `toJson()` method.
 
 # Scope
+This bug occurs as of April 13, 2022 using the current 6.0.0 master branch of openapi-generator
+
 Tested using [openapi-generator-cli-6.0.0-20220412.074015-127.jar 	(Tue Apr 12 07:40:21 UTC 2022)](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.0.0-SNAPSHOT/openapi-generator-cli-6.0.0-20220412.074015-127.jar)
 
 
@@ -17,6 +19,15 @@ Tested using [openapi-generator-cli-6.0.0-20220412.074015-127.jar 	(Tue Apr 12 0
 >shadowspec.yaml
 
 ```yaml
+openapi: 3.0.3
+info:
+  version: "1.0"
+  title: Dart Shadow Json Demo
+servers:
+  - url: 'localhost'
+    variables:
+      host:
+        default: localhost
 components:
   schemas:
     ItemWithFieldNamedJson:
@@ -25,6 +36,18 @@ components:
         json:
           type: object
           additionalProperties: {}
+paths:
+  /:
+    get:
+      operationId: shadow
+      responses:
+        '200':
+          description: produces a shadowed json field when generated in dart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemWithFieldNamedJson'
+
 ```
 
 # Output
